@@ -1,6 +1,8 @@
 app-id: net.windower.Lumoria
 runtime: org.gnome.Platform
 runtime-version: '50'
+base: org.winehq.Wine
+base-version: stable-25.08
 sdk: org.gnome.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.vala
@@ -19,6 +21,21 @@ finish-args:
   - --socket=pulseaudio
   - --share=network
   - --share=ipc
+
+inherit-extensions:
+  - org.freedesktop.Platform.GL32
+  - org.winehq.Wine.gecko
+  - org.winehq.Wine.mono
+
+add-extensions:
+  org.freedesktop.Platform.Compat.i386:
+    directory: lib/i386-linux-gnu
+    version: '25.08'
+
+  org.freedesktop.Platform.Compat.i386.Debug:
+    directory: lib/debug/lib/i386-linux-gnu
+    version: '25.08'
+    no-autodownload: true
 
 cleanup:
   - /include
@@ -125,8 +142,8 @@ modules:
     sources:
       - type: git
         url: https://github.com/Windower/Lumoria.git
-        tag: v0.1.21
-        commit: 6c2caf0ce0798e831994df0276b8cd8d02c8ce1c
+        tag: v0.1.22
+        commit: 89163c8673db2805b5d9f397f478f6956838918a
         x-checker-data:
           type: git
           tag-pattern: ^v(\d+\.\d+\.\d+(?:-[0-9A-Za-z.\-]+)?)$
